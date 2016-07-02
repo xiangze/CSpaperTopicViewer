@@ -1,5 +1,5 @@
 
-# CVPR papers pretty html
+# CVPR papers topic viewer
 
 This is a set of scripts for creating visual summary for all papers published at CVPR. The original idea is from https://github.com/colincsl/cvpr2013papers
 They show how one can manipulate PDFs, analyze word frequencies, 
@@ -21,6 +21,7 @@ pip install nltk
 
 1.1 Download NLTK stopwords
 >>import nltk
+
 >>nltk.download("stopwords")
  
 2. Download CVPR papers using download_paper.py and put them into the folder papers/
