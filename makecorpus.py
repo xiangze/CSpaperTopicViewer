@@ -5,20 +5,31 @@ from string import punctuation
 from operator import itemgetter
 import re
 
-year=2015
-topic_num=10
+import sys
+year=2016
+conference="cvpr"
+
+argc=len(sys.argv)
+if(argc>1):
+    year=int(sys.argv[1])
+
+if(argc>2):
+    conference=sys.argv[2]
+
+relpath= conference+str(year)+"/"
+outfname=relpath+"/allpapers.txt"
 
 # load in stopwords (i.e. boring words, these we will ignore)
 stopwords = open("stopwords.txt", "r").read().split()
 stopwords = [x.strip(punctuation) for x in stopwords if len(x)>2]
 
 # get list of all PDFs supplied by NIPS
-relpath = "papers%d/"%year
+
 allFiles = os.listdir(relpath)
 pdfs = [x for x in allFiles if x.endswith(".pdf")]
 
 # go over every PDF, use pdftotext to get all words, discard boring ones, and count frequencies
-outf = open("%d/allpapers%d.txt"%(year,year), "w")
+outf = open(outfname, "w")
 for i,f in enumerate(pdfs):
 	paperid = f[9:-4]
 	fullpath = relpath + f

@@ -7,15 +7,31 @@ from string import punctuation
 from operator import itemgetter
 import re
 import cPickle as pickle
+import sys
 
 N= 100 # how many top words to retain
+
+year=2016
+conference="cvpr"
+
+argc=len(sys.argv)
+if(argc>1):
+    year=int(sys.argv[1])
+
+if(argc>2):
+    conference=sys.argv[2]
+
+if(argc>3):
+    N=sys.argv[3]
+
 
 # load in stopwords (i.e. boring words, these we will ignore)
 stopwords = open("stopwords.txt", "r").read().split()
 stopwords = [x.strip(punctuation) for x in stopwords if len(x)>2]
 
 # get list of all PDFs supplied by NIPS
-relpath = "papers/"
+relpath = conference+str(year)
+
 allFiles = os.listdir(relpath)
 pdfs = [x for x in allFiles if x.endswith(".pdf")]
 
@@ -24,7 +40,7 @@ topdict = {} # dict of paperid -> [(word, frequency),...]
 for i,f in enumerate(pdfs):
 	# paperid = f[9:-4]
 	paperid = f
-	fullpath = relpath + f
+	fullpath = relpath + "/"+f
 
 	print "processing %s, %d/%d" % (paperid, i, len(pdfs))
 

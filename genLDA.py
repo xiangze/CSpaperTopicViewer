@@ -24,8 +24,9 @@ def prep_corpus(docs, additional_stopwords=set(), no_below=5, no_above=0.5):
 
   return dictionary, corpus
 
-year=2015
-topicnum=10
+import sys
+year=2016
+conference="cvpr"
 
 argc=len(sys.argv)
 if(argc>1):
@@ -34,19 +35,23 @@ if(argc>1):
 if(argc>2):
     topicnum=int(sys.argv[2])
 
-print  year, topicnum
+if(argc>3):
+    conference=sys.argv[3]
 
-if(not os.path.exists('%d/CVPRpapers%d.mm')):
-    with open('%d/allpapers%d.txt'%(year,year)) as fp:
+relpath= conference+str(year)
+rname= relpath+'/papers'
+print  conference,year, topicnum
+
+if(not os.path.exists(rname+'.mm')):
+    with open(relpath+'/allpapers.txt') as fp:
         d=fp.readlines()
         docs=[i.split(" ") for i in d]
 
         dictionary, corpus = prep_corpus(docs)
 
-        MmCorpus.serialize('%d/CVPRpapers%d.mm'%(year,year),
+        MmCorpus.serialize(rname+'.mm',
                            corpus)
-        dictionary.save('%d/CVPRpapers%d.dict'%(year,year))
-
+        dictionary.save(rname+'.dict')
 
 t0=time.clock()
 lda = models.ldamodel.LdaModel(corpus=corpus, 
@@ -55,5 +60,5 @@ lda = models.ldamodel.LdaModel(corpus=corpus,
                                passes=10)
 print time.clock()-t0
                                       
-lda.save('%d/CVPRpapers%d_%d.model'%(year,year,topicnum))
+lda.save(relpath+'/papers_%d.model'%(topicnum))
 
