@@ -47,6 +47,12 @@ if(conference=="cvpr"):
     for link in links:
         if link.has_key('href'):
             savepdf(link['href'],base_url,save_folder)
+elif(conference=="iccv"):
+    base_url = 'http://www.cv-foundation.org/openaccess/'
+    links=getlinks(base_url+'ICCV%d.py/'%year)
+    for link in links:
+        if link.has_key('href'):
+            savepdf(link['href'],base_url,save_folder)
 
 elif(conference=="nips"):
     base_url = 'https://papers.nips.cc/'
