@@ -34,11 +34,11 @@ for i,f in enumerate(pdfs):
 	paperid = f[9:-4]
 	fullpath = relpath + f
 
-	print "processing %s, %d/%d" % (paperid, i, len(pdfs))
+	print ("processing %s, %d/%d" % (paperid, i, len(pdfs)))
 
 	# create text file
 	cmd = "pdftotext %s %s" % (fullpath, "out.txt")
-	print "EXEC: " + cmd
+	print ("EXEC: " + cmd)
 	os.system(cmd)
 
 	txtlst = open("out.txt").read().split() # get all words in a giant list

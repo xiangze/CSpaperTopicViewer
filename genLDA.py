@@ -40,7 +40,7 @@ if(argc>3):
 
 relpath= conference+str(year)
 rname= relpath+'/papers'
-print  conference,year, topicnum
+print (conference+str(year)+"_"+str(topicnum))
 
 if(not os.path.exists(rname+'.mm')):
     with open(relpath+'/allpapers.txt') as fp:
@@ -53,12 +53,12 @@ if(not os.path.exists(rname+'.mm')):
                            corpus)
         dictionary.save(rname+'.dict')
 
-t0=time.clock()
+t0=time.time()
 lda = models.ldamodel.LdaModel(corpus=corpus, 
                                id2word=dictionary,
                                num_topics=topicnum,
                                passes=10)
-print time.clock()-t0
+print (time.time()-t0)
                                       
 lda.save(relpath+'/papers_%d.model'%(topicnum))
 

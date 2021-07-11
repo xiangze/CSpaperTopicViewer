@@ -1,6 +1,6 @@
 import httplib2
-from BeautifulSoup import BeautifulSoup, SoupStrainer
-import urllib2
+from bs4 import BeautifulSoup, SoupStrainer
+import urllib.request, urllib.error
 import os
 import re
 import sys
@@ -11,17 +11,17 @@ def get(url):
     return response
 
 def getlinks(url):
-    return BeautifulSoup(get(url), parseOnlyThese=SoupStrainer('a'))
+     return BeautifulSoup(get(url),"html.parser", parseOnlyThese=SoupStrainer('a'))
 
 def pdfname(file_url,save_folder):
-    start_index = file_url.rfind("/")+1
-    return save_folder+"/"+file_url[start_index:]
+     start_index = file_url.rfind("/")+1
+     return save_folder+"/"+file_url[start_index:]
 
 def savepdf(link,base_url,save_folder):
     if link != "#" and link.endswith('pdf'):
         outfilename=pdfname(link,save_folder)
         if(not os.path.exists(outfilename)):
-            pdf = urllib2.urlopen(base_url+link).read()
+            pdf = urllib.request.urlopen(base_url+link).read()
             with open(outfilename, 'wb') as f:
                 f.write(pdf)
 
@@ -41,15 +41,17 @@ if(not os.path.exists(save_folder)):
 
 
 if(conference=="cvpr"):
-    base_url = 'http://www.cv-foundation.org/openaccess/'
-    links=getlinks(base_url+'CVPR%d.py/'%year)
-
+    base_url = 'https://openaccess.thecvf.com/'
+    url=base_url+'CVPR%d?day=all'%year
+#    print(get(url))
+    links=getlinks(url)
+#    print(links)
     for link in links:
         if link.has_key('href'):
             savepdf(link['href'],base_url,save_folder)
 elif(conference=="iccv"):
-    base_url = 'http://www.cv-foundation.org/openaccess/'
-    links=getlinks(base_url+'ICCV%d.py/'%year)
+    base_url = 'https://openaccess.thecvf.com/'
+    links=getlinks(base_url+'ICCV%d'%year)
     for link in links:
         if link.has_key('href'):
             savepdf(link['href'],base_url,save_folder)
@@ -62,7 +64,7 @@ elif(conference=="nips"):
             turl=l['href']
 
     links_of_year=getlinks(base_url+turl)
-    print len(links_of_year)
+    print( len(links_of_year))
 
     for l in links_of_year:
         links_of_a_paper=getlinks(base_url+l['href'])

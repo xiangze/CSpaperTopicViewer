@@ -16,7 +16,7 @@ if(argc>3):
     conference=sys.argv[3]
 
 relpath= conference+str(year)
-print  conference,year, topic_num
+print (conference+str(year)+"_"+str(topic_num))
 
 fname=relpath+'/papers'
 outfname=relpath+'papers'

@@ -6,7 +6,7 @@ import os
 from string import punctuation
 from operator import itemgetter
 import re
-import cPickle as pickle
+import _pickle as pickle
 import sys
 
 N= 100 # how many top words to retain
@@ -42,11 +42,11 @@ for i,f in enumerate(pdfs):
 	paperid = f
 	fullpath = relpath + "/"+f
 
-	print "processing %s, %d/%d" % (paperid, i, len(pdfs))
+	print("processing %s, %d/%d" % (paperid, i, len(pdfs)))
 
 	# create text file
 	cmd = "pdftotext %s %s" % (fullpath, "out.txt")
-	print "EXEC: " + cmd
+	print ("EXEC: " + cmd)
 	os.system(cmd)
 
 	txtlst = open("out.txt").read().split() # get all words in a giant list

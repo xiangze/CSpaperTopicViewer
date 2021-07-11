@@ -1,5 +1,8 @@
+pyPdf2
+IPython
 httplib2
 beautifulsoup4
 gensim
 pyLDAvis
 nltk
+python-Levenshtein

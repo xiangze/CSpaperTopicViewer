@@ -1,5 +1,5 @@
-import pyPdf
-from pyPdf import PdfFileReader
+import PyPDF2
+from PyPDF2 import PdfFileReader
 import os
 from IPython import embed
 
