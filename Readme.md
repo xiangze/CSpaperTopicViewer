@@ -10,6 +10,10 @@ They show how one can manipulate PDFs, analyze word frequencies,
 
 1. Make sure you have the following libraries [System: ghostscript, imagemagick; Python: httplib2, beautifulsoup]
 
+```
+pip3 install -r  requirements.txt
+```
+
 On OSX:
 brew install ghostscript
 brew install imagemagick
@@ -20,9 +24,11 @@ pip install pyLDAvis
 pip install nltk
 
 1.1 Download NLTK stopwords
+```python
 >>import nltk
 
 >>nltk.download("stopwords")
+```
  
 2. Download CVPR papers using download_paper.py and put them into the folder papers/
 
