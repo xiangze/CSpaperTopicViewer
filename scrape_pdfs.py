@@ -1,21 +1,23 @@
+import sys
+import glob
 import PyPDF2
 from PyPDF2 import PdfFileReader
-import os
+from PyPDF2.pdf import ContentStream
 from IPython import embed
 
 def get_text(page):
 
 	content = page['/Contents'].getObject()
-	content = pyPdf.pdf.ContentStream(content, page.pdf)
+	content = ContentStream(content, page.pdf)
 
 	text = u""
 	for operands,operator in content.operations:
 		if operator in ["TJ", "Tj"]:
 			for i in operands[0]:
-				if isinstance(i, pyPdf.generic.TextStringObject):
+				if isinstance(i, PyPDF2.generic.TextStringObject):
 					if type(text) is not list:
 						text += i
-				elif type(i) is pyPdf.generic.NumberObject and i < 0:
+				elif type(i) is PyPDF2.generic.NumberObject and i < 0:
 					text += " "
 		elif operator in ['Tf']:
 			text += " "
@@ -27,11 +29,22 @@ def get_text(page):
 
 	return text
 
+year=2016
+conference="cvpr"
 
-files = os.listdir('.')
-files = [x for x in files if x[-3:]=='pdf']
-text_out = open('all_text.txt', 'w')
-# text_out = open('all_titles.txt', 'w')
+argc=len(sys.argv)
+if(argc>1):
+    year=int(sys.argv[1])
+
+if(argc>2):
+    conference=sys.argv[2]
+    
+folder=conference+str(year)
+
+#files = [x for x in os.listdir(folder) if x[-3:]=='pdf']
+files = glob.glob(folder+"/*.pdf")
+text_out = open(folder+'all_text.txt', 'w')
+# text_out = open(d+'all_titles.txt', 'w')
 
 titles = []
 authors = []
@@ -42,17 +55,15 @@ body = []
 for i,f in enumerate(files):
 	reader = PdfFileReader(open(f, 'rb'))
 	info = dict(reader.documentInfo)
-	titles += [info['/Title']]
-	authors += [info['/Author']]
-	keywords += [info['/Keywords']]
+#	titles += [info['/Title']]
+#	authors += [info['/Author']]
+#	keywords += [info['/Keywords']]
 
 	content = ""
 	for p in range(reader.numPages):
 		page = reader.getPage(p)
 		content += get_text(page)
 
-	if i == 0:
-		embed()
 	body += [content]
 
 for b in body:

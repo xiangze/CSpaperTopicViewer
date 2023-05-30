@@ -11,7 +11,7 @@ def get(url):
     return response
 
 def getlinks(url):
-     return BeautifulSoup(get(url),"html.parser", parseOnlyThese=SoupStrainer('a'))
+     return BeautifulSoup(get(url),"html.parser", parse_only=SoupStrainer('a'))
 
 def pdfname(file_url,save_folder):
      start_index = file_url.rfind("/")+1
@@ -47,13 +47,13 @@ if(conference=="cvpr"):
     links=getlinks(url)
 #    print(links)
     for link in links:
-        if link.has_key('href'):
+        if link.has_attr('href'):
             savepdf(link['href'],base_url,save_folder)
 elif(conference=="iccv"):
     base_url = 'https://openaccess.thecvf.com/'
     links=getlinks(base_url+'ICCV%d'%year)
     for link in links:
-        if link.has_key('href'):
+        if link.has_attr('href'):
             savepdf(link['href'],base_url,save_folder)
 
 elif(conference=="nips"):
@@ -69,7 +69,7 @@ elif(conference=="nips"):
     for l in links_of_year:
         links_of_a_paper=getlinks(base_url+l['href'])
         for link in links_of_a_paper:
-            if link.has_key('href'):
+            if link.has_attr('href'):
                 savepdf(link['href'],base_url,save_folder)
 
 else:

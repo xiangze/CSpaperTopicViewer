@@ -56,7 +56,7 @@ for i,f in enumerate(pdfs):
 	# count up frequencies of all words
 	wcount = {}
 	for w in words: wcount[w] = wcount.get(w, 0) + 1
-	top = sorted(wcount.iteritems(), key=itemgetter(1), reverse=True)[:N] # sort and take top N
+	top = sorted(wcount.items(), key=itemgetter(1), reverse=True)[:N] # sort and take top N
 
 	topdict[paperid] = top # save to our dict
 

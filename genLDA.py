@@ -42,16 +42,16 @@ relpath= conference+str(year)
 rname= relpath+'/papers'
 print (conference+str(year)+"_"+str(topicnum))
 
-if(not os.path.exists(rname+'.mm')):
-    with open(relpath+'/allpapers.txt') as fp:
-        d=fp.readlines()
-        docs=[i.split(" ") for i in d]
+#if(not os.path.exists(rname+'.mm')):
+with open(relpath+'/allpapers.txt') as fp:
+    d=fp.readlines()
+    docs=[i.split(" ") for i in d]
 
-        dictionary, corpus = prep_corpus(docs)
+    dictionary, corpus = prep_corpus(docs)
 
-        MmCorpus.serialize(rname+'.mm',
-                           corpus)
-        dictionary.save(rname+'.dict')
+    MmCorpus.serialize(rname+'.mm',
+                        corpus)
+    dictionary.save(rname+'.dict')
 
 t0=time.time()
 lda = models.ldamodel.LdaModel(corpus=corpus, 

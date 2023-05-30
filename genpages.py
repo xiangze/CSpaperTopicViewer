@@ -1,6 +1,6 @@
 import gensim
 import pyLDAvis
-import pyLDAvis.gensim
+import pyLDAvis.gensim_models as gensimvis
 import sys
 
 year=2016
@@ -25,10 +25,11 @@ dictionary = gensim.corpora.Dictionary.load(fname+'.dict')
 corpus = gensim.corpora.MmCorpus(fname+'.mm')
 lda = gensim.models.ldamodel.LdaModel.load(fname+'_%d.model'%topic_num)
 
-pdata=pyLDAvis.gensim.prepare(lda, corpus, dictionary)
+pdata=gensimvis.prepare(lda, corpus, dictionary)
 p=pyLDAvis.prepared_data_to_html(pdata)
 
 with open(outfname+"_%d.html"%(topic_num),"w") as fp:
-    print >>fp,"<h1> %s %d</h1>"%(conference.upper(),year)
-    print >>fp,"topic num=%d"%topic_num
-    print >>fp,p
+    fp.writelines("<h1> %s %d</h1>"%(conference.upper(),year))
+    fp.writelines("topic num=%d"%topic_num)
+    fp.writelines(p)
+    
