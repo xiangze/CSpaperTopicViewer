@@ -42,13 +42,22 @@ if(not os.path.exists(save_folder)):
 
 if(conference=="cvpr"):
     base_url = 'https://openaccess.thecvf.com/'
-    url=base_url+'CVPR%d?day=all'%year
-#    print(get(url))
-    links=getlinks(url)
-#    print(links)
-    for link in links:
-        if link.has_attr('href'):
-            savepdf(link['href'],base_url,save_folder)
+    if(year>= 2018 and year <= 2020):
+        links_days=[ base_url+a.get("href") for a in getlinks(base_url+'CVPR%d'%year) ]
+
+#        print(links_days) 
+        for l in links_days:
+            #print(getlinks(l))
+            for link in getlinks(l):
+                if link.has_attr('href'):
+                    savepdf(link['href'],base_url,save_folder)
+    else:
+        url=base_url+'CVPR%d?day=all'%year
+        links=getlinks(url)
+        for link in links:
+            if link.has_attr('href'):
+                savepdf(link['href'],base_url,save_folder)
+    
 elif(conference=="iccv"):
     base_url = 'https://openaccess.thecvf.com/'
     links=getlinks(base_url+'ICCV%d'%year)
