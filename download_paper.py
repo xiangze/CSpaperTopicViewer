@@ -46,11 +46,16 @@ if(conference=="cvpr"):
         links_days=[ base_url+a.get("href") for a in getlinks(base_url+'CVPR%d'%year) ]
 
 #        print(links_days) 
+#        exit()
+
         for l in links_days:
             #print(getlinks(l))
             for link in getlinks(l):
                 if link.has_attr('href'):
-                    savepdf(link['href'],base_url,save_folder)
+                    try:
+                        savepdf(link['href'],base_url,save_folder)
+                    except:
+                        print("no PDF file: %s  !!!"%link.text)
     else:
         url=base_url+'CVPR%d?day=all'%year
         links=getlinks(url)
