@@ -11,7 +11,7 @@ if [ $# -ge 2 ]; then
 conference=$2
 fi
 echo $conference$year
-mkdir $conference$year
+mkdir -p $conference$year
 
 # "cvpr"+"year" -> *.pdf
 $pp download_paper.py $year $conference
