@@ -30,17 +30,21 @@ pip install nltk
 >>nltk.download("stopwords")
 ```
  
-2. Download CVPR papers using download_paper.py and put them into the folder papers/
+ ```
+ for year in `seq 2016 2023`;do
+./run.sh cvpr $year
+done
+```
+contents of run.sh
 
-3. Run `pdftowordcloud.py` (to generate top words for each paper. Output saved in topwords.p as pickle)
-
-4. Run `scrape_cvpr.py` (to generate paperid, title, authors list by scraping html page)
-
-5. Run `makecorpus.py` (to create allpapers.txt file that has all papers one per row)
-
-6. Run `python genLDA.py $year $topicnum `. Model(*.model), dictionay file(*.dict), corpus(*.mm) are saved.
-
-8. Finally, run `python genpages.py $year $topicnum` creates $year/CVPRpapers_$year_$k.html`
+|python script|from|to|
+|:----|:----|:----|
+|download_paper.py|cvpr+"year"|$conference$year/*.pdf|
+|pdftowordcloud.py|$conference$year/*.pdf|topwords.p|
+|scrape_pdfs.py|$conference$year/*.pdf|all_text.txt|
+|makecorpus.py|$conference$year/*.pdf|alpapers.txt|
+|genLDA.py|allpapers.txt|papers_%d.model'|
+|genpages.py|papers_model:lda|$conference$year_$topicnum.html|
 
 #### Licence
 
